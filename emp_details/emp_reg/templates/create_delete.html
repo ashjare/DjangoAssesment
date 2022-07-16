@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block contents %}
+
+<div class="row">
+  <div class="col-sm-4">
+    <h4>Form for adding employee details..</h4>
+    <br>
+    <form action="" method="post">
+      {% csrf_token %}
+
+      {{form.as_p}}
+      <input type="submit" class="btn btn-success" value="Add Record">
+    </form>
+  </div>
+
+  <div class="col-sm-7 offset-1">
+    <h4>Table to Update and Delete Employee Records..</h4>
+    <br>
+    Note: Password is not displayed considering it as sensitive data!!! 
+    <br>
+    <br>
+    <table class="table table-dark table-striped table-bordered border-primary">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in data %}
+        <tr>
+          <th scope="row">{{i.id}}</th>
+          <td>{{i.name}}</td>
+          <td>{{i.email}}</td>
+          <td>
+            <a class="btn btn-warning btn-sm" href="{% url 'updatedata' i.id %}">Update</a>
+            <form action="{% url 'deletedata' i.id %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{% endblock contents %}
